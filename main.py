@@ -7,9 +7,12 @@ import matplotlib.pyplot as plt
 
 def main():
     
+    theta = [0,0]
+
     sourceData = inputDataset()
     linear_regression = Linear_regression(sourceData)
-    train, test = linear_regression.train_test_split()
+    X_train, y_train, X_test, y_test = linear_regression.train_test_split()
+    # linear_regression.gradientDescent(X_train, y_train, theta, 0.3, 10)
 
     #--價位區間圖--#
     # sns.set(rc={'figure.figsize':(8.7,5.27)}) 
