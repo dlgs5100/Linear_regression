@@ -1,15 +1,15 @@
-import numpy as np 
+from linear_regression import Linear_regression
+from sklearn import datasets
 import pandas as pd 
 import seaborn as sns
-from sklearn import datasets
 import matplotlib.pyplot as plt
 
+
 def main():
-    # lr = linear_model.LinearRegression()
-    boston = datasets.load_boston()
-    bos = pd.DataFrame(boston.data, columns = boston.feature_names) 
-    bos['PRICE'] = boston.target 
-    print(bos.head())
+    
+    sourceData = inputDataset()
+    linear_regression = Linear_regression(sourceData)
+    train, test = linear_regression.train_test_split()
 
     #--價位區間圖--#
     # sns.set(rc={'figure.figsize':(8.7,5.27)}) 
@@ -25,6 +25,11 @@ def main():
     # sns.heatmap(data=correlation_matrix, annot=True)
     # plt.show()
 
+def  inputDataset():
+    boston = datasets.load_boston()
+    bos = pd.DataFrame(boston.data, columns = boston.feature_names) 
+    bos['PRICE'] = boston.target 
+    return bos
 
 if __name__ == '__main__':
     main()  
