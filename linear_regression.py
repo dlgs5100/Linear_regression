@@ -1,4 +1,5 @@
 import numpy as np
+import copy
 
 class Linear_regression():
     def __init__(self, sourceData):
@@ -30,5 +31,5 @@ class Linear_regression():
             for indexTheta in range(np.size(theta)):
                 temp[indexTheta] = theta[indexTheta] - (1/m) * alpha * np.sum(np.transpose(X_train.dot(theta) - y_train) * X_train[: , indexTheta])
             theta = temp
-            resultTheta.append(theta)
+            resultTheta.append(theta.copy())
         return resultTheta

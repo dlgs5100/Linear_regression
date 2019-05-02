@@ -10,7 +10,7 @@ def main():
     
     alpha = 1.005
     theta = np.zeros((2,1))
-    iterations = 10
+    iterations = 20
 
     sourceData = inputDataset()
     linear_regression = Linear_regression(sourceData)
@@ -21,26 +21,25 @@ def main():
     oneX = np.concatenate((np.ones((np.size(X_train), 1)), X_train), axis = 1)
     resultTheta = linear_regression.gradientDescent(oneX, y_train, theta, alpha, iterations)
 
-    print(resultTheta)
-    # plt.plot(X_train, y_train, 'rx')
-    # plt.plot(oneX[:,1], oneX.dot(theta), '-')
-    # plt.xlabel('RM')
-    # plt.ylabel('Price')
-    # plt.show()
     fig, ax = plt.subplots()
-
-    x = oneX[:,1]
     ax.plot(X_train, y_train, 'rx')
-    line, = ax.plot(oneX[:,1], oneX.dot(resultTheta[-1]), '-')
+    line, = ax.plot([], [], '-')
 
+    startX = np.array([1,-1000])
+    endX = np.array([1,1000])
     def animate(i):
-        line.set_data(oneX[:,1], oneX.dot(resultTheta[i]))
+        newx = [-1000, 1000]
+        newy = [startX.dot(resultTheta[i])[0], endX.dot(resultTheta[i])[0]]
+        print(i, newy, resultTheta[i])
+        line.set_data(newx, newy)
         return line
     def init():
-        line.set_data(oneX[:,1], oneX.dot(resultTheta[0]))
+        newx = [-1000, 1000]
+        newy = [startX.dot(resultTheta[0])[0], endX.dot(resultTheta[0])[0]]
+        line.set_data(newx, newy)
         return line
 
-    ani = animation.FuncAnimation(fig=fig,  func=animate,  frames=9, init_func=init, interval=50, blit=False)
+    ani = animation.FuncAnimation(fig=fig, func=animate, frames=20, init_func=init, interval=80, blit=False)
     plt.show()
 
     
