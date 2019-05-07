@@ -18,41 +18,32 @@ def main():
 
     linear_regression = Linear_regression(sourceData)
     X_train, y_train, X_test, y_test = linear_regression.train_test_split()
+    
+    oneX_train = np.concatenate((np.ones((len(X_train), 1)), X_train), axis = 1)
+    oneX_test = np.concatenate((np.ones((len(X_test), 1)), X_test), axis = 1)
 
-    # 1xN > Nx1
-    X_train = X_train.reshape(len(X_train), 1)
-    y_train = y_train.reshape(len(y_train), 1)
-    X_test = X_train.reshape(len(X_train), 1)
-    y_test = y_train.reshape(len(y_train), 1)
-    # Add 1.0 to col0 in every row(Nx2)
-    # ex: [[1.0, 6.45]
-    #      [1.0, 5.61]]
-    oneX_train = np.concatenate((np.ones((np.size(X_train), 1)), X_train), axis = 1)
-    oneX_test = np.concatenate((np.ones((np.size(X_test), 1)), X_test), axis = 1)
-
-    iterations = 20
+    iterations = 500
     dfResult = pd.DataFrame(columns=['RMSE', 'R2_score'])
-    for alpha in np.arange(1.0, 1.01, 0.01):
-        theta = np.zeros((2,1))
-        alpha = round(alpha, 2)
+    
+    theta = np.zeros((len(X_train[0])+1,1))
+    alpha = 1.0
 
-        start = time.time()
-        theta, iterTheta = linear_regression.gradientDescent(oneX_train, y_train, theta, alpha, iterations)
-        end = time.time()
+    print('Cost:', linear_regression.costComputing(oneX_train, y_train, theta))
 
-        RMSE = calcRMSE(theta, oneX_test, y_test)
-        # print('Alpha:', alpha, 'RMSE:', RMSE)
-        R2_score = calcR2_score(theta, oneX_test, y_test)
-        # print('Alpha:', alpha, 'R2_score:', R2_score)
-        dfResult.loc[str(alpha)] = [RMSE, R2_score]
-        outputResult(alpha, RMSE, R2_score, end-start)
-        #--單一屬性與價格(二維)收斂動畫--#
-        # if alpha == 1.0:
-        #     plotAnimation(iterTheta, X_train, y_train)
+    start = time.time()
+    theta, iterTheta = linear_regression.gradientDescent(oneX_train, y_train, theta, alpha, iterations)
+    end = time.time()
+
+    RMSE = calcRMSE(theta, oneX_test, y_test)
+    R2_score = calcR2_score(theta, oneX_test, y_test)
+    dfResult.loc[str(alpha)] = [RMSE, R2_score]
+    outputResult(alpha, RMSE, R2_score, end-start)
+    #--單一屬性與價格(二維)收斂動畫--#
+    # plotAnimation(iterTheta, X_train, y_train)
     plotResult(dfResult)
 
 def calcRMSE(theta, X_test, y_test):
-    N = np.size(y_test)   
+    N = np.size(y_test)
     return np.sqrt(sum(np.square(X_test.dot(theta) - y_test))/N)[0]
 
 def calcR2_score(theta, X_test, y_test):

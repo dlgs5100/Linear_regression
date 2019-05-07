@@ -10,22 +10,26 @@ class Linear_regression():
         test = self.sourceData.drop(train.index, axis = 0)
 
         y_train = train['PRICE'].values
+        y_train = y_train.reshape(len(y_train), 1)
         X_train = train['RM'].values
-        # X_train = train.drop('PRICE', axis = 1)
-        
+        X_train = X_train.reshape(len(X_train), 1)    # Nx1
+        # X_train = train.drop('PRICE', axis = 1).values
+
         y_test = test['PRICE'].values
+        y_test = y_test.reshape(len(y_test), 1)
         X_test = test['RM'].values
-        # X_test = test.drop('PRICE', axis = 1)
+        X_test = X_test.reshape(len(X_test), 1)    # Nx1
+        # X_test = test.drop('PRICE', axis = 1).values
+        
         return X_train, y_train, X_test, y_test
 
     def costComputing(self, X_train, y_train, theta):
         m = np.size(y_train)
-        return (1 / (2 * m)) * sum(np.power(X_train.dot(theta) - y_train, 2));
+        return (1 / (2 * m)) * sum(np.power(X_train.dot(theta) - y_train, 2))[0]
 
     def gradientDescent(self, X_train, y_train, theta, alpha, iterations):
         temp = np.zeros((np.size(theta), 1))
         iterTheta = []
-
         m = np.size(y_train)
         for _ in range(iterations):
             for indexTheta in range(np.size(theta)):
