@@ -29,9 +29,9 @@ $\theta_1 = \theta_1 - \alpha \frac{\delta}{\delta\theta_1}J(\theta_0,\theta_1)$
 
 偏微分的意義是讓$\theta$在斜率為負的情況下變大，斜率為正的情況下變小，反之亦然(如下圖)。而$\alpha$為learning rate，愈大$\theta$變化幅度愈大，反之亦然。
 
-![$\theta_0$為0，$\theta_1$不固定](Image/GradientDescent2D.png)
+![$\theta_0$為0，$\theta_1$不固定](image/GradientDescent2D.png)
 
-![$\theta_0$不固定，$\theta_1$不固定](Image/GradientDescent3D.png)
+![$\theta_0$不固定，$\theta_1$不固定](image/GradientDescent3D.png)
 
 $\theta_i$各自偏微分過後為
 
@@ -45,11 +45,11 @@ $\theta_1 = \theta_1 - \alpha \frac{1}{m}\Sigma^{m}_{i=1}(h_\theta(x_i) - y_i) *
 
 首先觀察PRICE的分布情況。
 
-![](Image/PriceRange.png)
+![](image/PriceRange.png)
 
 再透過dataframe中的corr函數來檢視PRICE和其他特徵的相關程度。
 
-![](Image/PriceRelevance.png)
+![](image/PriceRelevance.png)
 
 這邊發現和RM的特徵有0.7的相關程度，因此優先以此進行線性回歸。
 
@@ -63,11 +63,11 @@ R2_score:表示可根據自變量的變異來解釋因變量的變異部分，[1
 
 $R2_score = 1 - \frac{\Sigma^{N}_{i=0}(Reality_i - Predicted_i)^2}{\Sigma^{N}_{i=0}(Reality_i - \overline{Predicted_i})^2}$
 
-![](Image/RM_RMSE&R2_score.png)
+![](image/RM_RMSE&R2_score.png)
 
 從圖表中判斷，$\alpha$值從0.99到1.01之間都屬於能找到收斂的最佳解，因此這邊以1.01為$\alpha$進行20次迭代收斂，用Gif圖來看RM和PRICE的線性回歸迭代過程。
 
-![](Image/Iteration.gif)
+![](image/Iteration.gif)
 
 以上面的情況來看，一組自變量的線性規劃對Gradient Descent來說並不困難，但在多組自變量的情況下，則需要更多次的迭代才能達成。
 
